@@ -1,4 +1,11 @@
-# ttt-ts
+# vue-othello-ts
+TypeScript+CompositionAPI
+
+## demo
+https://toyo-toyo.github.io/vue-othello-ts/
+
+## JavaScript
+https://github.com/toyo-toyo/vue-othello
 
 ## Project setup
 ```
