@@ -1,5 +1,8 @@
 <template>
-  <div class="game-board" ref="toyotoyo">
+  <div class="game-board" ref="toyotoyo"
+    :style="{width: 
+      windoWidth 
+    }">
     <template v-for="(v, x) in cells">
       <game-cell
         class="game-cell"
@@ -45,7 +48,7 @@ const BLANK: Owner = 0;
 /** プレイヤー毎の置かれる石（文字） */
 const STONES = { [P1]: "黒", [P2]: "白" };
 /** 盤面のサイズ(偶数のみ) */
-const BOARD_SIZE = 4;
+const BOARD_SIZE = 6;
 /** 引っ繰り返す方向は8方向なので定義しておく */
 const OFFSET = [
   [-1, -1],
@@ -78,7 +81,7 @@ export default createComponent({
     cells.value[ini2][ini1].owner = P1;
     cells.value[ini2][ini2].owner = P2;
     let turn = ref<Player>(P1);
-
+    const windoWidth: string = ((window.innerWidth < window.innerHeight) ? window.innerWidth : window.innerHeight* 0.95) + 'px'
     const winner = computed<Player | undefined>(() => {
       let winnerPName: Player | undefined;
       const stoneCnt = cells.value.reduce(
@@ -189,6 +192,7 @@ export default createComponent({
     onMounted(() => {
       // 最初のターンを通知するためにイベントを発行
       ctx.emit("nextTurn", STONES[turn.value]);
+      checkAllStone();
     });
 
     // 最後にテンプレートから参照される物を全て返す
@@ -198,7 +202,8 @@ export default createComponent({
       winner,
       isGameEnded,
       placeStone,
-      BOARD_SIZE
+      BOARD_SIZE,
+      windoWidth
     };
   }
 });
