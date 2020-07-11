@@ -1,29 +1,47 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App" />
+    <div class="msg">{{ gameMsg }}</div>
+    <game-board
+      @nextTurn="nextTurn"
+      @gameEnd="gameEnd"
+    />
   </div>
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import HelloWorld from "./components/HelloWorld.vue";
+import GameBoard from '@/components/GameBoard.vue'
+import { createComponent, ref } from '@vue/composition-api'
 
-export default Vue.extend({
-  name: "App",
+export default createComponent({
+  name: 'app',
   components: {
-    HelloWorld
+    GameBoard
+  },
+  setup () {
+    const gameMsg = ref('')
+    const nextTurn = (player: string) => {
+      gameMsg.value = `${player}の番です`
+    }
+    const gameEnd = (winner: string) => {
+      gameMsg.value = winner ? `${winner}の勝ちです` : '引き分けです'
+    }
+    return {
+      gameMsg,
+      nextTurn,
+      gameEnd
+    }
   }
-});
+})
 </script>
 
 <style lang="scss">
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  .msg {
+    font-size: 2em;
+  }
 }
 </style>
